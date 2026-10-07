@@ -1,28 +1,38 @@
 import SongList from './components/SongList'
+import { BrowserRouter, Link, NavLink, Route, Routes } from 'react-router-dom'
+import HomePage from './pages/HomePage'
+import SongPage from './pages/SongPage'
+import AboutPage from './pages/AboutPage'
+import NotFoundPage from './pages/NotFoundPage'
+import RouteFocus from './components/RouteFocus'
 
 export default function App() {
   return (
-    <div className="page">
+    <BrowserRouter>
+      <RouteFocus />
+      <div className="page">
+      <a className="skip-link" href="#main-content">דילוג לתוכן</a>
       <header className="site-header">
-        <span className="site-name">אליאניס</span>
-        <span>זיכרון במילים</span>
+        <Link className="site-name" to="/">אליאניס</Link>
+        <nav className="site-nav" aria-label="ניווט ראשי">
+          <NavLink to="/" end>בית</NavLink>
+          <NavLink to="/songs">השירים</NavLink>
+          <NavLink to="/about">אודות</NavLink>
+        </nav>
       </header>
 
-      <main>
-        <section className="intro" aria-labelledby="intro-title">
-          <p className="eyebrow">למשפחה, ולכל מי שרוצה להכיר</p>
-          <h1 id="intro-title">להכיר דרך השירים.</h1>
-          <p className="intro-text">
-            מקום להאזין לשירים של אליאניס, להכיר את הסיפורים שמאחוריהם
-            ולשמור את המילים קרובות.
-          </p>
-          <a className="button" href="#songs">אל השירים</a>
-        </section>
-
-        <SongList />
+      <main id="main-content" tabIndex={-1}>
+        <Routes>
+          <Route path="/" element={<HomePage />} />
+          <Route path="/songs" element={<SongList />} />
+          <Route path="/songs/:songId" element={<SongPage />} />
+          <Route path="/about" element={<AboutPage />} />
+          <Route path="*" element={<NotFoundPage />} />
+        </Routes>
       </main>
 
       <footer>אליאניס — זיכרון במילים</footer>
-    </div>
+      </div>
+    </BrowserRouter>
   )
 }

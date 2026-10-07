@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { Link } from 'react-router-dom'
 import { songs } from '../data/songs'
 
 export default function SongList() {
@@ -10,7 +11,7 @@ export default function SongList() {
 
   return (
     <section className="songs" id="songs" aria-labelledby="songs-title">
-      <h2 id="songs-title">השירים של אליאניס</h2>
+      <h1 id="songs-title">השירים של אליאניס</h1>
       <label className="search-label" htmlFor="song-search">חיפוש בשירים</label>
       <input
         id="song-search"
@@ -30,25 +31,11 @@ export default function SongList() {
       <div className="song-list">
         {matchingSongs.map((song) => (
           <article className="song-card" key={song.id}>
-            <h3>{song.title}</h3>
+            <h2>{song.title}</h2>
             <p>{song.description}</p>
-            <iframe
-              className="song-video"
-              src={`https://www.youtube-nocookie.com/embed/${song.youtubeId}`}
-              title={`נגן YouTube: ${song.title}`}
-              loading="lazy"
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-              referrerPolicy="strict-origin-when-cross-origin"
-              allowFullScreen
-            />
-            <a
-              className="youtube-link"
-              href={`https://www.youtube.com/watch?v=${song.youtubeId}`}
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              צפייה ב־YouTube (נפתח בלשונית חדשה)
-            </a>
+            <Link className="button" to={`/songs/${song.id}`}>
+              צפייה והאזנה: {song.title}
+            </Link>
           </article>
         ))}
       </div>
