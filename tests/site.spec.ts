@@ -148,3 +148,24 @@ test('all main pages fit the viewport and pass automated accessibility checks', 
     expect(result.violations).toEqual([])
   }
 })
+
+test('all family photos load with descriptions and retain their proportions', async ({ page }) => {
+  for (const [route, count] of [['/', 5], ['/about', 6]] as const) {
+    await page.goto(route)
+    const pictures = page.locator('.memorial-photo img')
+    await expect(pictures).toHaveCount(count)
+    for (const picture of await pictures.all()) {
+      await picture.scrollIntoViewIfNeeded()
+      await expect(picture).toHaveAttribute('alt', /.+/)
+      await picture.evaluate(async (image: HTMLImageElement) => {
+        await image.decode()
+        if (!image.naturalWidth) throw new Error('Photo did not load')
+      })
+      const difference = await picture.evaluate((image: HTMLImageElement) => {
+        const box = image.getBoundingClientRect()
+        return Math.abs(box.width / box.height - image.naturalWidth / image.naturalHeight)
+      })
+      expect(difference).toBeLessThan(0.01)
+    }
+  }
+})

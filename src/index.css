@@ -37,7 +37,9 @@ button, a, input { -webkit-tap-highlight-color: transparent; }
 .skip-link { position: absolute; top: -100px; background: #fffdf9; padding: 12px; }
 .skip-link:focus { top: 8px; }
 main:focus { outline: none; }
-.intro { padding: 88px 0; max-width: 680px; }
+.intro { display: flex; align-items: center; gap: 48px; padding: 56px 0; }
+.intro-copy { flex: 1; min-width: 0; }
+.intro > .memorial-photo { flex: 0 1 360px; }
 .eyebrow { color: #725b48; }
 .life-dates { color: #725b48; }
 .home-about-link { display: inline-block; margin: 16px; }
@@ -47,8 +49,18 @@ h1 { font-size: clamp(36px, 7vw, 64px); line-height: 1.2; margin: 16px 0; }
 .section-heading { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px; margin-bottom: 20px; }
 .section-heading h2 { font-size: 28px; margin-bottom: 0; }
 .section-heading .eyebrow { margin-top: 0; }
-.memory-panel { padding: 32px; border-radius: 12px; background: #f0e7db; }
+.memory-panel { display: flex; align-items: center; gap: 32px; padding: 32px; border-radius: 12px; background: #f0e7db; }
+.memory-panel > div { flex: 1; min-width: 0; }
+.memory-panel > .memorial-photo { flex: 1; min-width: 0; }
 .memory-panel p { max-width: 700px; }
+.memorial-photo { margin: 0; min-width: 0; }
+.memorial-photo img { display: block; width: 100%; height: auto; border-radius: 12px; }
+.memorial-photo figcaption { padding: 8px 0; color: #725b48; font-size: 14px; }
+.photo-gallery { display: flex; align-items: flex-start; flex-wrap: wrap; gap: 24px; }
+.photo-gallery > .memorial-photo { flex: 1 1 240px; }
+.biography-portrait { max-width: 600px; margin: 24px auto 32px; }
+.biography-home { max-width: 300px; margin: 24px auto 32px; }
+.biography-gallery { margin: 24px 0 32px; }
 
 .button {
   display: inline-block;
@@ -116,7 +128,9 @@ footer { padding: 32px 0; color: #725b48; }
 .favorite-button:hover { background: #e8d8c6; }
 
 @media (max-width: 600px) {
-  .intro { padding: 48px 0; }
+  .intro { flex-direction: column; align-items: stretch; gap: 24px; padding: 32px 0; }
+  .intro > .memorial-photo { order: -1; flex-basis: auto; max-width: 320px; align-self: center; }
+  .memory-panel { flex-direction: column; align-items: stretch; }
   .intro-text { font-size: 18px; }
   .songs, .content-panel, .memory-panel { padding: 24px; }
   .site-header { flex-wrap: wrap; }
