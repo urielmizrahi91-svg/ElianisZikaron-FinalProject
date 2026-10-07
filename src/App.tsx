@@ -7,16 +7,18 @@ import NotFoundPage from './pages/NotFoundPage'
 import RouteFocus from './components/RouteFocus'
 import { FavoritesProvider } from './context/FavoritesContext'
 import QuizPage from './pages/QuizPage'
+import ScrollReveal from './components/ScrollReveal'
 
 export default function App() {
   return (
     <BrowserRouter>
       <FavoritesProvider>
         <RouteFocus />
+        <ScrollReveal />
         <div className="page">
           <a className="skip-link" href="#main-content">דילוג לתוכן</a>
           <header className="site-header">
-            <Link className="site-name" to="/">אליאניס</Link>
+            <Link className="site-name" to="/">אליאניס<span>זיכרון במילים</span></Link>
             <nav className="site-nav" aria-label="ניווט ראשי">
               <NavLink to="/" end>בית</NavLink>
               <NavLink to="/songs">השירים</NavLink>

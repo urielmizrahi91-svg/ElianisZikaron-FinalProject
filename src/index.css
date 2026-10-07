@@ -1,148 +1,153 @@
 :root {
-  font-family: Arial, sans-serif;
-  color: #46372d;
-  background: #faf6ef;
-  line-height: 1.7;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif;
+  color: #1d1d1f;
+  background: #f5f5f7;
+  line-height: 1.65;
   font-synthesis: none;
+  --muted: #606065;
+  --blue: #0066cc;
 }
-
 * { box-sizing: border-box; }
 body { margin: 0; }
-a { color: inherit; }
+a { color: var(--blue); text-underline-offset: 4px; }
 button, input { font: inherit; }
 button, a, input { -webkit-tap-highlight-color: transparent; }
-
-.page {
-  width: min(100% - 40px, 1000px);
-  margin: 0 auto;
-}
-
+.page { width: 100%; }
 .site-header {
+  position: sticky;
+  top: 0;
+  z-index: 10;
   display: flex;
-  justify-content: space-between;
   align-items: center;
-  gap: 16px;
-  padding: 24px 0;
-  border-bottom: 1px solid #ded3c5;
+  justify-content: space-between;
+  gap: 24px;
+  padding: 14px max(24px, calc((100vw - 1120px) / 2));
+  background: rgb(250 250 252 / 94%);
+  backdrop-filter: blur(18px);
+  border-bottom: 1px solid #dedee3;
 }
-
-.site-footer { border-top: 1px solid #ded3c5; margin-top: 40px; }
-.site-footer p { margin: 4px 0; }
-.site-footer strong { color: #46372d; }
-
-.site-name { font-size: 24px; font-weight: bold; text-decoration: none; }
-.site-nav { display: flex; flex-wrap: wrap; gap: 20px; }
-.site-nav a { text-decoration: none; padding: 8px 0; }
-.site-nav a.active { font-weight: bold; border-bottom: 2px solid #694c37; }
-.skip-link { position: absolute; top: -100px; background: #fffdf9; padding: 12px; }
+.site-name { display: flex; align-items: baseline; gap: 14px; font-size: 25px; font-weight: 750; color: #1d1d1f; text-decoration: none; }
+.site-name span { font-size: 12px; font-weight: 400; color: var(--muted); }
+.site-nav { display: flex; gap: 28px; }
+.site-nav a { color: #45454a; font-size: 14px; padding: 7px 0; text-decoration: none; }
+.site-nav a.active { color: var(--blue); font-weight: 650; }
+.site-nav a:hover { color: var(--blue); }
+.skip-link { position: fixed; top: -100px; right: 16px; z-index: 30; background: white; padding: 12px; border-radius: 8px; }
 .skip-link:focus { top: 8px; }
 main:focus { outline: none; }
-.intro { display: flex; align-items: center; gap: 48px; padding: 56px 0; }
-.intro-copy { flex: 1; min-width: 0; }
-.intro > .memorial-photo { flex: 0 1 360px; }
-.eyebrow { color: #725b48; }
-.life-dates { color: #725b48; }
-.home-about-link { display: inline-block; margin: 16px; }
-h1 { font-size: clamp(36px, 7vw, 64px); line-height: 1.2; margin: 16px 0; }
-.intro-text { font-size: 20px; margin-bottom: 32px; }
-.home-section { padding-bottom: 40px; }
-.section-heading { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px; margin-bottom: 20px; }
-.section-heading h2 { font-size: 28px; margin-bottom: 0; }
-.section-heading .eyebrow { margin-top: 0; }
-.memory-panel { display: flex; align-items: center; gap: 32px; padding: 32px; border-radius: 12px; background: #f0e7db; }
-.memory-panel > div { flex: 1; min-width: 0; }
-.memory-panel > .memorial-photo { flex: 1; min-width: 0; }
-.memory-panel p { max-width: 700px; }
-.memorial-photo { margin: 0; min-width: 0; }
-.memorial-photo img { display: block; width: 100%; height: auto; border-radius: 12px; }
-.memorial-photo figcaption { padding: 8px 0; color: #725b48; font-size: 14px; }
-.photo-gallery { display: flex; align-items: flex-start; flex-wrap: wrap; gap: 24px; }
-.photo-gallery > .memorial-photo { flex: 1 1 240px; }
-.biography-portrait { max-width: 600px; margin: 24px auto 32px; }
-.biography-home { max-width: 300px; margin: 24px auto 32px; }
-.biography-gallery { margin: 24px 0 32px; }
-
-.button {
-  display: inline-block;
-  padding: 12px 24px;
-  border-radius: 6px;
-  background: #694c37;
-  color: white;
-  text-decoration: none;
-}
-
-.button:hover { background: #503827; }
-a:focus-visible, input:focus-visible, button:focus-visible { outline: 3px solid #315f82; outline-offset: 4px; }
-.songs { margin-top: 32px; padding: 32px; background: #f0e7db; border-radius: 12px; }
-.songs h1, .content-panel h1 { font-size: clamp(28px, 5vw, 40px); }
-.content-panel { margin-top: 32px; padding: 32px; background: #f0e7db; border-radius: 12px; }
-.back-link { display: inline-block; margin-bottom: 16px; }
-h2 { margin-top: 0; }
-footer { padding: 32px 0; color: #725b48; }
-
-.search-label { display: block; font-weight: bold; margin-bottom: 8px; }
-.search-input {
-  width: 100%;
-  padding: 12px;
-  border: 1px solid #8b7764;
-  border-radius: 6px;
-  background: #fffdf9;
-  color: inherit;
-  font: inherit;
-}
-.results-count { margin: 16px 0; }
-.song-list { display: flex; flex-wrap: wrap; gap: 16px; }
-.song-card {
+h1, h2, h3 { line-height: 1.15; letter-spacing: -0.035em; }
+h1 { font-size: clamp(36px, 6vw, 64px); margin: 16px 0 28px; }
+h2 { font-size: clamp(30px, 4vw, 48px); margin: 12px 0 24px; }
+p { margin: 0 0 20px; }
+.eyebrow { color: var(--muted); font-size: 14px; font-weight: 650; margin-bottom: 16px; }
+.life-dates { color: var(--muted); }
+.button { display: inline-block; padding: 12px 24px; border-radius: 999px; background: var(--blue); color: white; text-decoration: none; font-size: 16px; font-weight: 500; }
+.button:hover { background: #0056ad; }
+button.button { border: 0; font: inherit; cursor: pointer; }
+a:focus-visible, input:focus-visible, button:focus-visible { outline: 3px solid #0071e3; outline-offset: 5px; }
+.home-about-link { display: inline-block; margin: 16px 20px; }
+.intro {
   display: flex;
-  flex-direction: column;
-  flex: 1 1 240px;
-  min-width: 0;
-  padding: 24px;
-  background: #fffdf9;
-  border: 1px solid #ded3c5;
-  border-radius: 8px;
+  align-items: center;
+  justify-content: center;
+  gap: clamp(32px, 6vw, 90px);
+  padding: 72px max(24px, calc((100vw - 1120px) / 2));
+  min-height: 760px;
+  background: #08090b;
+  color: #f5f5f7;
 }
-.card-eyebrow { color: #725b48; font-size: 14px; margin: 0; }
-.card-description { flex-grow: 1; }
+.intro-copy { flex: 1; min-width: 0; max-width: 590px; }
+.intro h1 { font-size: clamp(52px, 7.5vw, 96px); font-weight: 750; line-height: 1.05; margin-bottom: 32px; }
+.intro .eyebrow { color: #c6b39a; letter-spacing: 0.02em; }
+.intro-text { color: #c2c2c8; font-size: 22px; line-height: 1.65; }
+.hero-dedication { color: #a9a9b0; font-size: 14px; margin-bottom: 26px; }
+.intro a:not(.button) { color: #79baff; }
+.intro > .memorial-photo { flex: 0 1 390px; }
+.intro .memorial-photo img { border-radius: 24px; }
+.intro .memorial-photo figcaption { color: #b6b6bf; text-align: center; }
+.home-section { width: min(100% - 48px, 1120px); margin: 0 auto; padding: 100px 0; }
+.section-heading { display: flex; justify-content: space-between; align-items: flex-end; flex-wrap: wrap; gap: 24px; margin-bottom: 40px; }
+.section-heading h2 { margin-bottom: 0; }
+.section-heading .eyebrow { margin-top: 0; }
+.song-list { display: flex; flex-wrap: wrap; gap: 24px; }
+.song-card { display: flex; flex-direction: column; flex: 1 1 280px; min-width: 0; padding: 32px; background: white; border: 1px solid #e8e8ed; border-radius: 28px; box-shadow: 0 8px 28px rgb(0 0 0 / 3%); transition: box-shadow 220ms, transform 220ms; }
+.song-card:hover { transform: translateY(-4px); box-shadow: 0 16px 40px rgb(0 0 0 / 7%); }
+.music-icon { display: flex; align-items: center; justify-content: center; width: 56px; height: 56px; border-radius: 16px; font-size: 32px; margin-bottom: 24px; background: #f0f4fa; color: var(--blue); }
+.card-eyebrow { color: var(--muted); font-size: 13px; margin: 0; }
+.song-card h2 { font-size: 28px; margin: 12px 0 20px; }
+.card-description { flex-grow: 1; color: var(--muted); font-size: 16px; }
 .song-card .button { text-align: center; }
 .song-card .favorite-button { margin-bottom: 0; }
-.song-card h2 { margin: 8px 0 16px; font-size: 24px; }
-.song-video { display: block; width: 100%; aspect-ratio: 16 / 9; border: 0; border-radius: 6px; }
+.favorite-button { display: block; margin: 16px 0; padding: 10px 16px; border: 1px solid #c6c6ce; border-radius: 999px; background: white; color: #45454a; cursor: pointer; }
+.favorite-button[aria-pressed='true'] { color: #0056ad; border-color: #0066cc; background: #edf5ff; }
+.favorite-button:hover { background: #f0f4fa; }
+.music-gallery-section { width: 100%; padding: 80px max(24px, calc((100vw - 1120px) / 2)); background: #101114; color: #f5f5f7; }
+.music-gallery-section .eyebrow, .music-gallery-section .memorial-photo figcaption { color: #b8b8bf; }
+.music-gallery-section h2 { margin-bottom: 40px; }
+.memorial-photo { margin: 0; min-width: 0; }
+.memorial-photo img { display: block; width: 100%; height: auto; border-radius: 20px; }
+.memorial-photo figcaption { padding: 12px 4px; color: var(--muted); font-size: 13px; }
+.photo-gallery { display: flex; align-items: flex-start; flex-wrap: wrap; gap: 24px; }
+.photo-gallery > .memorial-photo { flex: 1 1 240px; }
+.memory-panel { display: flex; align-items: center; gap: 64px; width: min(100% - 48px, 1120px); margin: 100px auto 0; padding: 48px; border-radius: 32px; background: white; }
+.memory-panel > div, .memory-panel > .memorial-photo { flex: 1; min-width: 0; }
+.memory-panel p:not(.eyebrow) { color: var(--muted); font-size: 19px; }
+.quiz-invitation { text-align: center; }
+.quiz-invitation h2 { font-size: clamp(40px, 6vw, 64px); }
+.quiz-invitation > p:not(.eyebrow) { color: var(--muted); font-size: 20px; }
+.songs, .content-panel { width: min(100% - 48px, 1120px); margin: 48px auto 0; padding: 48px; border-radius: 28px; background: white; }
+.songs > h1, .content-panel > h1 { font-size: clamp(36px, 5vw, 56px); }
+.songs .song-card { background: #f5f5f7; box-shadow: none; }
+.content-panel > p { max-width: 800px; font-size: 18px; }
+.back-link { display: inline-block; margin-bottom: 24px; }
+.search-label { display: block; font-weight: 650; margin-bottom: 10px; }
+.search-input { width: 100%; padding: 16px 20px; border: 1px solid #aaaab2; border-radius: 14px; background: #fafafa; color: inherit; font: inherit; }
+.results-count { margin: 24px 0; font-weight: 500; }
+.favorites-filter { display: flex; align-items: center; gap: 10px; margin-top: 20px; }
+.favorites-filter input { width: 20px; height: 20px; accent-color: var(--blue); }
+.favorites-note { color: var(--muted); font-size: 14px; margin-top: 12px; }
+.song-video { display: block; width: 100%; aspect-ratio: 16 / 9; border: 0; border-radius: 20px; background: #101114; }
 .youtube-link { display: inline-block; margin-top: 16px; }
-.player-note { color: #725b48; font-size: 14px; margin-bottom: 0; }
-.favorites-filter { display: flex; align-items: center; gap: 8px; margin-top: 16px; }
-.favorites-filter input { width: 20px; height: 20px; accent-color: #694c37; }
-.favorites-note { color: #725b48; font-size: 14px; }
-.favorite-button {
-  display: block;
-  margin: 16px 0;
-  padding: 10px 16px;
-  border: 1px solid #694c37;
-  border-radius: 6px;
-  background: #fffdf9;
-  color: #694c37;
-  font: inherit;
-  cursor: pointer;
-}
-.favorite-button[aria-pressed="true"] { background: #e8d8c6; }
-.favorite-button:hover { background: #e8d8c6; }
-
-button.button { border: 0; font: inherit; cursor: pointer; }
+.player-note { color: var(--muted); font-size: 14px; margin: 20px 0 0; }
+.biography-portrait { max-width: 700px; margin: 40px auto 64px; }
+.biography-home { max-width: 320px; margin: 40px auto 64px; }
+.biography-gallery { margin: 40px 0 64px; }
+.site-footer { margin-top: 0; padding: 48px max(24px, calc((100vw - 1120px) / 2)); border-top: 1px solid #dcdce2; color: var(--muted); background: #ededf0; font-size: 13px; }
+.site-footer p { margin: 8px 0; }
+.site-footer strong { color: #1d1d1f; font-size: 16px; }
 button:disabled { cursor: default; }
-.button:disabled { background: #e3d8cb; color: #46372d; }
-.quiz-options { display: flex; flex-direction: column; gap: 12px; margin: 24px 0; }
-.quiz-option { padding: 16px; text-align: start; border: 1px solid #8b7764; border-radius: 8px; color: #46372d; background: #fffdf9; cursor: pointer; }
-.quiz-option:not(:disabled):hover, .quiz-option.selected { background: #e8d8c6; }
-.quiz-option.selected { border: 2px solid #694c37; }
-.quiz-feedback { padding: 16px; margin-bottom: 24px; background: #fffdf9; border-radius: 8px; }
+.button:disabled { background: #e3e3e8; color: #45454a; }
+.quiz-options { display: flex; flex-direction: column; gap: 12px; margin: 32px 0; }
+.quiz-option { padding: 20px; text-align: start; border: 1px solid #aaaab2; border-radius: 16px; color: #1d1d1f; background: #f5f5f7; cursor: pointer; }
+.quiz-option:not(:disabled):hover, .quiz-option.selected { background: #edf5ff; }
+.quiz-option.selected { border: 2px solid var(--blue); }
+.quiz-feedback { padding: 24px; margin-bottom: 24px; background: #edf5ff; border-radius: 20px; }
 .quiz-feedback p { margin: 4px 0; }
-.quiz-score { font-size: 24px; font-weight: bold; }
-
+.quiz-score { font-size: 28px; font-weight: 700; }
+@keyframes section-arrive { from { transform: translateY(16px); } to { transform: translateY(0); } }
+.revealed { animation: section-arrive 650ms ease-out both; }
+@media (min-width: 601px) and (max-width: 960px) {
+  .intro { gap: 32px; min-height: 640px; }
+  .intro > .memorial-photo { flex-basis: 300px; }
+  .memory-panel { gap: 32px; padding: 32px; }
+}
 @media (max-width: 600px) {
-  .intro { flex-direction: column; align-items: stretch; gap: 24px; padding: 32px 0; }
-  .intro > .memorial-photo { order: -1; flex-basis: auto; max-width: 320px; align-self: center; }
-  .memory-panel { flex-direction: column; align-items: stretch; }
-  .intro-text { font-size: 18px; }
-  .songs, .content-panel, .memory-panel { padding: 24px; }
-  .site-header { flex-wrap: wrap; }
+  .site-header { padding: 12px 20px; flex-wrap: wrap; gap: 8px; }
+  .site-name { width: 100%; justify-content: space-between; font-size: 22px; }
+  .site-nav { width: 100%; justify-content: space-between; gap: 16px; }
+  .site-nav a { padding: 6px 0; }
+  .intro { flex-direction: column; align-items: stretch; gap: 32px; min-height: 0; padding: 48px 24px 32px; }
+  .intro h1 { font-size: clamp(48px, 14vw, 64px); }
+  .intro-text { font-size: 19px; }
+  .intro > .memorial-photo { flex-basis: auto; width: min(100%, 340px); align-self: center; }
+  .home-about-link { margin: 16px 10px; }
+  .home-section { padding: 60px 0; }
+  .music-gallery-section { padding: 48px 24px; }
+  .memory-panel { flex-direction: column; align-items: stretch; gap: 32px; margin-top: 60px; padding: 28px; border-radius: 24px; }
+  .songs, .content-panel { padding: 24px; margin-top: 24px; }
+  .song-card { padding: 24px; }
+  .biography-gallery { margin-bottom: 40px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation: none !important; transition: none !important; scroll-behavior: auto !important; }
 }

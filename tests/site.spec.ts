@@ -131,8 +131,6 @@ test('blocked storage keeps favorites usable and explains the limitation', async
 test('keyboard navigation reaches the skip link and content', async ({ page }) => {
   await page.goto('/')
   await expect(page.getByRole('heading', { level: 1 })).toBeVisible()
-  await page.locator('body').click({ position: { x: 1, y: 1 } })
-  await page.keyboard.press('Control+Home')
   await page.keyboard.press('Tab')
   await expect(page.getByRole('link', { name: 'דילוג לתוכן' })).toBeFocused()
   await page.keyboard.press('Enter')
