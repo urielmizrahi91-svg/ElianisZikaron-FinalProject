@@ -49,7 +49,7 @@ test('each song has its own route, player and direct YouTube link', async ({ pag
   await page.goto('/')
   await page.getByRole('link', { name: 'אל השירים', exact: true }).click()
   for (const song of videos) {
-    await page.getByRole('link', { name: `צפייה והאזנה: ${song.title}`, exact: true }).click()
+    await page.getByRole('link', { name: `האזנה למחרוזת: ${song.title}`, exact: true }).click()
     await expect(page).toHaveURL(`/songs/${song.id}`)
     await expect(page.getByRole('heading', { level: 1 })).toHaveText(song.title)
     await expect(page.locator('iframe')).toHaveAttribute('src', `https://www.youtube-nocookie.com/embed/${song.video}`)
@@ -97,7 +97,7 @@ test('favorites share state across pages, persist and can be removed', async ({ 
   await page.getByLabel('חיפוש בשירים').fill('בומפם')
   await expect(page.getByRole('status')).toContainText('לא נמצאו שירים')
   await page.getByLabel('חיפוש בשירים').fill('')
-  await page.getByRole('link', { name: 'צפייה והאזנה: מחרוזת פיגה', exact: true }).click()
+  await page.getByRole('link', { name: 'האזנה למחרוזת: מחרוזת פיגה', exact: true }).click()
   await page.reload()
   await expect(page.getByRole('button', { name: removeName, exact: true })).toHaveAttribute('aria-pressed', 'true')
   await page.getByRole('button', { name: removeName, exact: true }).click()
@@ -127,7 +127,7 @@ test('blocked storage keeps favorites usable and explains the limitation', async
   await page.goto('/songs')
   await expect(page.getByText('הדפדפן לא מאפשר לשמור מועדפים. הבחירה תישמר רק עד לרענון העמוד.', { exact: true })).toBeVisible()
   await page.getByRole('button', { name: 'שמירה במועדפים: מחרוזת פיגה', exact: true }).click()
-  await page.getByRole('link', { name: 'צפייה והאזנה: מחרוזת פיגה', exact: true }).click()
+  await page.getByRole('link', { name: 'האזנה למחרוזת: מחרוזת פיגה', exact: true }).click()
   await expect(page.getByRole('button', { name: 'הסרה מהמועדפים: מחרוזת פיגה', exact: true })).toHaveAttribute('aria-pressed', 'true')
 })
 
@@ -182,7 +182,7 @@ test('quiz gives feedback for wrong answers and works by keyboard', async ({ pag
   await expect(page).toHaveURL('/about')
 })
 
-test('all family photos load with descriptions and retain their proportions', async ({ page }) => {
+test('family photos load and gallery frames use the intended fit', async ({ page }) => {
   for (const [route, count] of [['/', 5], ['/about', 6]] as const) {
     await page.goto(route)
     const pictures = page.locator('.memorial-photo img')
@@ -196,9 +196,43 @@ test('all family photos load with descriptions and retain their proportions', as
       })
       const difference = await picture.evaluate((image: HTMLImageElement) => {
         const box = image.getBoundingClientRect()
-        return Math.abs(box.width / box.height - image.naturalWidth / image.naturalHeight)
+        const inMusicGallery = image.closest('.music-gallery-section')
+        const expectedRatio = inMusicGallery ? 4 / 5 : image.naturalWidth / image.naturalHeight
+        if (inMusicGallery) {
+          const fit = getComputedStyle(image).objectFit
+          if (fit !== (image.closest('.gallery-album') ? 'contain' : 'cover')) throw new Error('Incorrect gallery fit')
+        }
+        return Math.abs(box.width / box.height - expectedRatio)
       })
       expect(difference).toBeLessThan(0.01)
+    }
+  }
+})
+
+
+test('home layout aligns actions and content at requested viewport widths', async ({ page }) => {
+  for (const width of [375, 768, 1440]) {
+    await page.setViewportSize({ width, height: 900 })
+    await page.goto('/')
+    await expect(page.locator('html')).toHaveAttribute('dir', 'rtl')
+    const layout = await page.evaluate(() => {
+      const cards = [...document.querySelectorAll('.home-section .song-card')]
+      const buttons = cards.map(card => card.querySelector('.button')!.getBoundingClientRect())
+      const captions = [...document.querySelectorAll('.music-gallery-section figcaption')].map(node => node.getBoundingClientRect().top)
+      const edges = ['.header-content', '.intro-copy', '.home-section .section-heading', '.music-gallery-section .content-container'].map(selector => {
+        const node = document.querySelector(selector)!
+        const box = node.getBoundingClientRect()
+        return box.right - (selector.includes('content-container') || selector === '.header-content' ? parseFloat(getComputedStyle(node).paddingRight) : 0)
+      })
+      return { overflow: document.documentElement.scrollWidth > innerWidth, heights: buttons.map(box => box.height), tops: buttons.map(box => box.top), cardHeights: cards.map(card => card.getBoundingClientRect().height), captions, edges }
+    })
+    expect(layout.overflow).toBe(false)
+    expect(layout.heights.every(height => height >= 44)).toBe(true)
+    expect(Math.max(...layout.edges) - Math.min(...layout.edges)).toBeLessThan(1)
+    if (width === 1440) {
+      expect(Math.max(...layout.tops) - Math.min(...layout.tops)).toBeLessThan(1)
+      expect(Math.max(...layout.cardHeights) - Math.min(...layout.cardHeights)).toBeLessThan(1)
+      expect(Math.max(...layout.captions) - Math.min(...layout.captions)).toBeLessThan(1)
     }
   }
 })

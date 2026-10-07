@@ -18,6 +18,7 @@ export default function App() {
         <div className="page">
           <a className="skip-link" href="#main-content">דילוג לתוכן</a>
           <header className="site-header">
+            <div className="header-content content-container">
             <Link className="site-name" to="/" aria-label="אליאניס — לדף הבית">
               <img className="site-logo" src="/elianis-logo.png" alt="אליאניס — דיוקן עם בוזוקי ושם בקשת זהובה" width={1254} height={1254} />
             </Link>
@@ -27,6 +28,7 @@ export default function App() {
               <NavLink to="/about">אודות</NavLink>
               <NavLink to="/quiz">חידון</NavLink>
             </nav>
+            </div>
           </header>
 
           <main id="main-content" tabIndex={-1}>

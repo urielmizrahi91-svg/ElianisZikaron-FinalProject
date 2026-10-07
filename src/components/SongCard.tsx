@@ -9,10 +9,12 @@ export default function SongCard({ song }: { song: Song }) {
       <p className="card-eyebrow">מחרוזת יוונית</p>
       <h2>{song.title}</h2>
       <p className="card-description">{song.description}</p>
-      <Link className="button" to={`/songs/${song.id}`}>
-        צפייה והאזנה: {song.title}
-      </Link>
-      <FavoriteButton song={song} />
+      <div className="card-actions">
+        <Link className="button" aria-label={`האזנה למחרוזת: ${song.title}`} to={`/songs/${song.id}`}>
+          האזנה למחרוזת
+        </Link>
+        <FavoriteButton song={song} />
+      </div>
     </article>
   )
 }

@@ -10,14 +10,16 @@ export default function HomePage() {
       <section className="intro" aria-labelledby="intro-title">
         <div className="intro-copy">
           <p className="eyebrow">מוזיקה. תורה. חיים שלמים.</p>
-          <h1 id="intro-title">להכיר דרך השירים.</h1>
+          <h1 id="intro-title"><span>להכיר</span>{' '}<span>דרך השירים.</span></h1>
           <p className="intro-text">
             מוזיקה, תורה וחסד — מקום להאזין לשירים של אליאניס ולהכיר את
             סיפורו, מבית ילדותו בחיפה ועד לחייו במעלות־תרשיחא.
           </p>
+          <div className="hero-actions">
+            <Link className="button" to="/songs">אל השירים</Link>
+            <Link className="home-about-link" to="/about">סיפורו של אליאניס</Link>
+          </div>
           <p className="hero-dedication">לזכרו של רבי אליהו (אליאניס) מזרחי ז״ל</p>
-          <Link className="button" to="/songs">אל השירים</Link>
-          <Link className="home-about-link" to="/about">סיפורו של אליאניס</Link>
         </div>
         <MemorialPhoto photo={photos.bouzouki} priority />
       </section>
@@ -36,12 +38,14 @@ export default function HomePage() {
       </section>
 
       <section className="home-section music-gallery-section" data-reveal aria-labelledby="music-photos-title">
-        <p className="eyebrow">02 / רגעים מתוך האלבום</p>
-        <h2 id="music-photos-title">הבוזוקי, הבמה והניגון</h2>
-        <div className="photo-gallery">
-          <MemorialPhoto photo={photos.sunset} />
-          <MemorialPhoto photo={photos.album} />
-          <MemorialPhoto photo={photos.singer} />
+        <div className="content-container">
+          <p className="eyebrow">02 / רגעים מתוך האלבום</p>
+          <h2 id="music-photos-title">הבוזוקי, הבמה והניגון</h2>
+          <div className="photo-gallery">
+            <MemorialPhoto photo={photos.sunset} className="gallery-sunset" />
+            <MemorialPhoto photo={photos.album} className="gallery-album" />
+            <MemorialPhoto photo={photos.singer} className="gallery-singer" />
+          </div>
         </div>
       </section>
 
