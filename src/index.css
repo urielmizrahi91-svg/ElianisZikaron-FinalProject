@@ -40,10 +40,34 @@ h1 { font-size: clamp(36px, 7vw, 64px); line-height: 1.2; margin: 16px 0; }
 }
 
 .button:hover { background: #503827; }
-a:focus-visible { outline: 3px solid #315f82; outline-offset: 4px; }
+a:focus-visible, input:focus-visible { outline: 3px solid #315f82; outline-offset: 4px; }
 .songs { padding: 32px; background: #f0e7db; border-radius: 12px; scroll-margin-top: 24px; }
 h2 { margin-top: 0; }
 footer { padding: 32px 0; color: #725b48; }
+
+.search-label { display: block; font-weight: bold; margin-bottom: 8px; }
+.search-input {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #8b7764;
+  border-radius: 6px;
+  background: #fffdf9;
+  color: inherit;
+  font: inherit;
+}
+.results-count { margin: 16px 0; }
+.song-list { display: flex; flex-wrap: wrap; gap: 16px; }
+.song-card {
+  flex: 1 1 240px;
+  min-width: 0;
+  padding: 24px;
+  background: #fffdf9;
+  border: 1px solid #ded3c5;
+  border-radius: 8px;
+}
+.song-card h3 { margin: 8px 0 16px; }
+.song-video { display: block; width: 100%; aspect-ratio: 16 / 9; border: 0; border-radius: 6px; }
+.youtube-link { display: inline-block; margin-top: 16px; }
 
 @media (max-width: 600px) {
   .intro { padding: 48px 0; }
