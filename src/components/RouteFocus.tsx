@@ -13,7 +13,9 @@ export default function RouteFocus() {
         ? 'השירים'
         : pathname === '/about'
           ? 'סיפור החיים'
-          : song?.title ?? 'העמוד לא נמצא'
+          : pathname === '/quiz'
+            ? 'חידון'
+            : song?.title ?? 'העמוד לא נמצא'
     document.title = `${pageTitle} | אליאניס — זיכרון במילים`
     window.scrollTo(0, 0)
     document.getElementById('main-content')?.focus({ preventScroll: true })

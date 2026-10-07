@@ -140,13 +140,45 @@ test('keyboard navigation reaches the skip link and content', async ({ page }) =
 })
 
 test('all main pages fit the viewport and pass automated accessibility checks', async ({ page }) => {
-  for (const route of ['/', '/songs', '/songs/figa-medley', '/about']) {
+  for (const route of ['/', '/songs', '/songs/figa-medley', '/about', '/quiz']) {
     await page.goto(route)
     await expect(page.getByRole('heading', { level: 1 })).toBeVisible()
     expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true)
     const result = await new AxeBuilder({ page }).withTags(['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa']).analyze()
     expect(result.violations).toEqual([])
   }
+})
+
+test('quiz counts correct answers once and restarts cleanly', async ({ page }) => {
+  await page.goto('/quiz')
+  await expect(page.getByRole('button', { name: 'לשאלה הבאה' })).toBeDisabled()
+  const answers = ['חיפה', 'בוזוקי', 'מכבי חיפה', 'מעלות־תרשיחא', 'לימוד תורה']
+  for (const [index, answer] of answers.entries()) {
+    await page.getByRole('button', { name: answer, exact: true }).click()
+    await expect(page.getByRole('status')).toContainText('תשובה נכונה!')
+    await expect(page.getByRole('button', { name: answer, exact: true })).toBeDisabled()
+    await page.getByRole('button', { name: index === 4 ? 'לסיכום' : 'לשאלה הבאה' }).click()
+  }
+  await expect(page.getByRole('heading', { name: 'החידון הסתיים' })).toBeFocused()
+  await expect(page.locator('.quiz-score')).toHaveText('הניקוד שלכם: 5 מתוך 5')
+  await page.getByRole('button', { name: 'התחלה מחדש' }).click()
+  await expect(page.getByRole('heading', { name: 'באיזו עיר גדל אליאניס?' })).toBeFocused()
+  await expect(page.locator('.quiz-panel')).toContainText('שאלה 1 מתוך 5 · ניקוד: 0')
+  await expect(page.getByRole('button', { name: 'חיפה', exact: true })).toBeEnabled()
+})
+
+test('quiz gives feedback for wrong answers and works by keyboard', async ({ page }) => {
+  await page.goto('/quiz')
+  const answers = ['ירושלים', 'פסנתר', 'מכבי חיפה', 'מעלות־תרשיחא', 'לימוד תורה']
+  for (const [index, answer] of answers.entries()) {
+    await page.getByRole('button', { name: answer, exact: true }).focus()
+    await page.keyboard.press('Enter')
+    await expect(page.getByRole('status')).toContainText(index < 2 ? 'התשובה הנכונה:' : 'תשובה נכונה!')
+    await page.getByRole('button', { name: index === 4 ? 'לסיכום' : 'לשאלה הבאה' }).click()
+  }
+  await expect(page.locator('.quiz-score')).toHaveText('הניקוד שלכם: 3 מתוך 5')
+  await page.getByRole('link', { name: 'לסיפור החיים', exact: true }).click()
+  await expect(page).toHaveURL('/about')
 })
 
 test('all family photos load with descriptions and retain their proportions', async ({ page }) => {

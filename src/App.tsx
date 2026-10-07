@@ -6,6 +6,7 @@ import AboutPage from './pages/AboutPage'
 import NotFoundPage from './pages/NotFoundPage'
 import RouteFocus from './components/RouteFocus'
 import { FavoritesProvider } from './context/FavoritesContext'
+import QuizPage from './pages/QuizPage'
 
 export default function App() {
   return (
@@ -20,6 +21,7 @@ export default function App() {
               <NavLink to="/" end>בית</NavLink>
               <NavLink to="/songs">השירים</NavLink>
               <NavLink to="/about">אודות</NavLink>
+              <NavLink to="/quiz">חידון</NavLink>
             </nav>
           </header>
 
@@ -29,6 +31,7 @@ export default function App() {
               <Route path="/songs" element={<SongList />} />
               <Route path="/songs/:songId" element={<SongPage />} />
               <Route path="/about" element={<AboutPage />} />
+              <Route path="/quiz" element={<QuizPage />} />
               <Route path="*" element={<NotFoundPage />} />
             </Routes>
           </main>
