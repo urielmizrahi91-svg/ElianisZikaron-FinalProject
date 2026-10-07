@@ -16,6 +16,7 @@ export default function SongPlayer({ song }: SongPlayerProps) {
         referrerPolicy="strict-origin-when-cross-origin"
         allowFullScreen
       />
+      <p className="player-note">אם הנגן לא זמין, אפשר לפתוח את הסרטון ב־YouTube בקישור הבא.</p>
       <a
         className="youtube-link"
         href={`https://www.youtube.com/watch?v=${song.youtubeId}`}

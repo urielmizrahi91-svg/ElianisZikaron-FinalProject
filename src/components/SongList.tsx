@@ -1,7 +1,6 @@
 import { useState } from 'react'
-import { Link } from 'react-router-dom'
 import { songs } from '../data/songs'
-import FavoriteButton from './FavoriteButton'
+import SongCard from './SongCard'
 import { useFavorites } from '../context/FavoritesContext'
 
 export default function SongList() {
@@ -51,14 +50,7 @@ export default function SongList() {
 
       <div className="song-list">
         {matchingSongs.map((song) => (
-          <article className="song-card" key={song.id}>
-            <h2>{song.title}</h2>
-            <p>{song.description}</p>
-            <Link className="button" to={`/songs/${song.id}`}>
-              צפייה והאזנה: {song.title}
-            </Link>
-            <FavoriteButton song={song} />
-          </article>
+          <SongCard key={song.id} song={song} />
         ))}
       </div>
     </section>

@@ -9,6 +9,8 @@
 * { box-sizing: border-box; }
 body { margin: 0; }
 a { color: inherit; }
+button, input { font: inherit; }
+button, a, input { -webkit-tap-highlight-color: transparent; }
 
 .page {
   width: min(100% - 40px, 1000px);
@@ -24,6 +26,10 @@ a { color: inherit; }
   border-bottom: 1px solid #ded3c5;
 }
 
+.site-footer { border-top: 1px solid #ded3c5; margin-top: 40px; }
+.site-footer p { margin: 4px 0; }
+.site-footer strong { color: #46372d; }
+
 .site-name { font-size: 24px; font-weight: bold; text-decoration: none; }
 .site-nav { display: flex; flex-wrap: wrap; gap: 20px; }
 .site-nav a { text-decoration: none; padding: 8px 0; }
@@ -37,6 +43,12 @@ main:focus { outline: none; }
 .home-about-link { display: inline-block; margin: 16px; }
 h1 { font-size: clamp(36px, 7vw, 64px); line-height: 1.2; margin: 16px 0; }
 .intro-text { font-size: 20px; margin-bottom: 32px; }
+.home-section { padding-bottom: 40px; }
+.section-heading { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px; margin-bottom: 20px; }
+.section-heading h2 { font-size: 28px; margin-bottom: 0; }
+.section-heading .eyebrow { margin-top: 0; }
+.memory-panel { padding: 32px; border-radius: 12px; background: #f0e7db; }
+.memory-panel p { max-width: 700px; }
 
 .button {
   display: inline-block;
@@ -69,6 +81,8 @@ footer { padding: 32px 0; color: #725b48; }
 .results-count { margin: 16px 0; }
 .song-list { display: flex; flex-wrap: wrap; gap: 16px; }
 .song-card {
+  display: flex;
+  flex-direction: column;
   flex: 1 1 240px;
   min-width: 0;
   padding: 24px;
@@ -76,9 +90,14 @@ footer { padding: 32px 0; color: #725b48; }
   border: 1px solid #ded3c5;
   border-radius: 8px;
 }
+.card-eyebrow { color: #725b48; font-size: 14px; margin: 0; }
+.card-description { flex-grow: 1; }
+.song-card .button { text-align: center; }
+.song-card .favorite-button { margin-bottom: 0; }
 .song-card h2 { margin: 8px 0 16px; font-size: 24px; }
 .song-video { display: block; width: 100%; aspect-ratio: 16 / 9; border: 0; border-radius: 6px; }
 .youtube-link { display: inline-block; margin-top: 16px; }
+.player-note { color: #725b48; font-size: 14px; margin-bottom: 0; }
 .favorites-filter { display: flex; align-items: center; gap: 8px; margin-top: 16px; }
 .favorites-filter input { width: 20px; height: 20px; accent-color: #694c37; }
 .favorites-note { color: #725b48; font-size: 14px; }
@@ -99,6 +118,6 @@ footer { padding: 32px 0; color: #725b48; }
 @media (max-width: 600px) {
   .intro { padding: 48px 0; }
   .intro-text { font-size: 18px; }
-  .songs, .content-panel { padding: 24px; }
+  .songs, .content-panel, .memory-panel { padding: 24px; }
   .site-header { flex-wrap: wrap; }
 }
