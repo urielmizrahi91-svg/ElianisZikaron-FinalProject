@@ -1,0 +1,52 @@
+:root {
+  font-family: Arial, sans-serif;
+  color: #46372d;
+  background: #faf6ef;
+  line-height: 1.7;
+  font-synthesis: none;
+}
+
+* { box-sizing: border-box; }
+body { margin: 0; }
+a { color: inherit; }
+
+.page {
+  width: min(100% - 40px, 1000px);
+  margin: 0 auto;
+}
+
+.site-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  padding: 24px 0;
+  border-bottom: 1px solid #ded3c5;
+}
+
+.site-name { font-size: 24px; font-weight: bold; }
+.intro { padding: 88px 0; max-width: 680px; }
+.eyebrow { color: #725b48; }
+h1 { font-size: clamp(36px, 7vw, 64px); line-height: 1.2; margin: 16px 0; }
+.intro-text { font-size: 20px; margin-bottom: 32px; }
+
+.button {
+  display: inline-block;
+  padding: 12px 24px;
+  border-radius: 6px;
+  background: #694c37;
+  color: white;
+  text-decoration: none;
+}
+
+.button:hover { background: #503827; }
+a:focus-visible { outline: 3px solid #315f82; outline-offset: 4px; }
+.songs { padding: 32px; background: #f0e7db; border-radius: 12px; scroll-margin-top: 24px; }
+h2 { margin-top: 0; }
+footer { padding: 32px 0; color: #725b48; }
+
+@media (max-width: 600px) {
+  .intro { padding: 48px 0; }
+  .intro-text { font-size: 18px; }
+  .songs { padding: 24px; }
+}
