@@ -5,10 +5,12 @@ import SongPage from './pages/SongPage'
 import AboutPage from './pages/AboutPage'
 import NotFoundPage from './pages/NotFoundPage'
 import RouteFocus from './components/RouteFocus'
+import { FavoritesProvider } from './context/FavoritesContext'
 
 export default function App() {
   return (
     <BrowserRouter>
+      <FavoritesProvider>
       <RouteFocus />
       <div className="page">
       <a className="skip-link" href="#main-content">דילוג לתוכן</a>
@@ -33,6 +35,7 @@ export default function App() {
 
       <footer>אליאניס — זיכרון במילים</footer>
       </div>
+      </FavoritesProvider>
     </BrowserRouter>
   )
 }
