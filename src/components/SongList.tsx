@@ -21,10 +21,13 @@ export default function SongList() {
         id="song-search"
         className="search-input"
         type="search"
+        aria-describedby="song-search-hint song-results"
         value={query}
         onChange={(event) => setQuery(event.target.value)}
         placeholder="חיפוש לפי שם או תיאור"
       />
+
+      <p id="song-search-hint" className="favorites-note">אפשר לחפש לפי שם המחרוזת או מילים מתוך התיאור.</p>
 
       <label className="favorites-filter">
         <input
@@ -40,7 +43,7 @@ export default function SongList() {
           : 'הדפדפן לא מאפשר לשמור מועדפים. הבחירה תישמר רק עד לרענון העמוד.'}
       </p>
 
-      <p className="results-count" role="status">
+      <p id="song-results" className="results-count" role="status" aria-atomic="true">
         {matchingSongs.length === 0
           ? favoritesOnly && favoriteIds.length === 0
             ? 'עדיין אין מועדפים. בטלו את הסינון ובחרו שיר לשמירה.'

@@ -236,3 +236,51 @@ test('home layout aligns actions and content at requested viewport widths', asyn
     }
   }
 })
+
+test('reading remains usable at narrow widths and with doubled text sizes', async ({ page }) => {
+  for (const width of [320, 640]) {
+    await page.setViewportSize({ width, height: 450 })
+    for (const path of ['/', '/songs', '/about', '/quiz', '/songs/figa-medley']) {
+      await page.goto(path)
+      if (width === 640) {
+        // Text-only enlargement, separate from the narrow-viewport reflow check.
+        await page.evaluate(() => {
+          const nodes = [...document.querySelectorAll<HTMLElement>('h1,h2,h3,p,a,button,label,figcaption,input,span')]
+          const sizes = nodes.map(node => parseFloat(getComputedStyle(node).fontSize))
+          nodes.forEach((node, index) => { node.style.fontSize = `${sizes[index]! * 2}px` })
+        })
+      }
+      expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true)
+      expect(await page.locator('.site-header').evaluate(node => getComputedStyle(node).position)).toBe('static')
+      const clipped = await page.locator('h1,h2,p,button,label,figcaption').evaluateAll(nodes => nodes.some(node => node.scrollWidth > node.clientWidth + 1))
+      expect(clipped).toBe(false)
+    }
+  }
+})
+
+test('keyboard focus is visible and navigation targets are comfortable', async ({ page }) => {
+  await page.goto('/')
+  await page.keyboard.press('Tab')
+  await expect(page.getByRole('link', { name: 'דילוג לתוכן' })).toBeFocused()
+  await page.keyboard.press('Enter')
+  await expect(page.locator('main')).toBeFocused()
+  await page.keyboard.press('Tab')
+  await expect(page.getByRole('link', { name: 'אל השירים', exact: true })).toBeFocused()
+  const focus = await page.locator(':focus').evaluate(node => getComputedStyle(node).outlineStyle)
+  expect(focus).toBe('solid')
+  for (const link of await page.locator('.site-nav a').all()) {
+    const box = await link.boundingBox()
+    expect(box!.width).toBeGreaterThanOrEqual(44)
+    expect(box!.height).toBeGreaterThanOrEqual(44)
+  }
+  await page.keyboard.press('Enter')
+  await expect(page).toHaveURL('/songs')
+  await expect(page.getByRole('searchbox')).toHaveAccessibleDescription(/אפשר לחפש/)
+})
+
+test('reduced motion avoids entrance animations', async ({ page }) => {
+  await page.emulateMedia({ reducedMotion: 'reduce' })
+  await page.goto('/')
+  await page.locator('.music-gallery-section').scrollIntoViewIfNeeded()
+  expect(await page.locator('.music-gallery-section').evaluate(node => getComputedStyle(node).animationName)).toBe('none')
+})

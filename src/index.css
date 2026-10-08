@@ -215,3 +215,27 @@ a.button:hover, .site-name:hover { text-decoration: none; }
   .music-gallery-section .photo-gallery { grid-template-columns: 1fr; }
   .memory-panel { width: calc(100% - 40px); padding: 24px; }
 }
+
+/* Comfortable reading and keyboard focus without changing the visual palette. */
+body { font-size: 18px; }
+.card-description { font-size: 18px; }
+.site-nav a { display: inline-flex; align-items: center; justify-content: center; min-width: 44px; min-height: 44px; }
+.favorites-filter { min-height: 44px; cursor: pointer; }
+.favorites-filter input { flex-shrink: 0; }
+.back-link, .youtube-link, .section-heading > a, .memory-panel a { min-height: 44px; display: inline-flex; align-items: center; }
+a:focus-visible, button:focus-visible, input:focus-visible { outline: 3px solid #0066cc; outline-offset: 4px; box-shadow: 0 0 0 4px #fff; }
+.intro a:focus-visible { outline-color: #79baff; box-shadow: 0 0 0 4px #08090b; }
+[id], a, button, input { scroll-margin-block: 160px 24px; }
+h1, h2, h3, p, a, button, label { overflow-wrap: anywhere; }
+.content-panel > p, .intro-text { max-width: 65ch; }
+@media (max-width: 600px), (max-height: 500px) {
+  .site-header { position: static; }
+  .site-nav { flex-wrap: wrap; justify-content: flex-start; gap: 4px 12px; }
+  [id], a, button, input { scroll-margin-block: 24px; }
+}
+@media (forced-colors: active) {
+  .button, .favorite-button, .quiz-option { border: 1px solid ButtonText; }
+  .site-nav a.active { border-bottom-color: LinkText; }
+  .favorite-button[aria-pressed='true'] { outline: 2px solid Highlight; }
+  a:focus-visible, button:focus-visible, input:focus-visible { outline-color: Highlight; }
+}
