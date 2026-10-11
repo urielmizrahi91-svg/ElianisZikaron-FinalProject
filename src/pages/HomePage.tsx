@@ -1,3 +1,4 @@
+import PhotoGallery from '../components/PhotoGallery'
 import { Link } from 'react-router-dom'
 import SongCard from '../components/SongCard'
 import { songs } from '../data/songs'
@@ -6,7 +7,7 @@ import { photos } from '../data/photos'
 
 export default function HomePage() {
   return (
-    <>
+    <PhotoGallery photos={[photos.bouzouki, photos.sunset, photos.album, photos.singer, photos.torah]}>
       <section className="intro" aria-labelledby="intro-title">
         <div className="intro-copy">
           <p className="eyebrow">מוזיקה. תורה. חיים שלמים.</p>
@@ -68,6 +69,6 @@ export default function HomePage() {
         <p>חמש שאלות על הדרך של אליאניס. רגע קטן של היכרות.</p>
         <Link className="button" to="/quiz">לחידון המורשת</Link>
       </section>
-    </>
+    </PhotoGallery>
   )
 }

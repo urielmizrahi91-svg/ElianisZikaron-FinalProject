@@ -8,6 +8,7 @@ const videos = [
 ]
 
 test.beforeEach(async ({ page }) => {
+  await page.route('https://i.ytimg.com/**', route => route.abort())
   // These tests cover our interface; video playback is checked separately.
   await page.route('https://www.youtube-nocookie.com/**', (route) => route.abort())
 })
@@ -283,4 +284,60 @@ test('reduced motion avoids entrance animations', async ({ page }) => {
   await page.goto('/')
   await page.locator('.music-gallery-section').scrollIntoViewIfNeeded()
   expect(await page.locator('.music-gallery-section').evaluate(node => getComputedStyle(node).animationName)).toBe('none')
+})
+
+
+test('photo gallery supports arrows, focus containment, Escape and reopening', async ({ page }) => {
+  await page.goto('/')
+  const trigger = page.getByRole('button', { name: 'הגדלת תמונה: אליאניס והבוזוקי', exact: true })
+  await trigger.click()
+  const gallery = page.getByRole('dialog', { name: 'גלריית תמונות' })
+  await expect(gallery).toBeVisible()
+  const close = gallery.getByRole('button', { name: 'סגירת הגלריה' })
+  await expect(close).toBeFocused()
+  await expect(gallery.getByRole('status')).toContainText('תמונה 1 מתוך 5')
+  await page.keyboard.press('ArrowLeft')
+  await expect(gallery.getByRole('status')).toContainText('תמונה 2 מתוך 5')
+  await page.keyboard.press('ArrowRight')
+  await expect(gallery.getByRole('status')).toContainText('תמונה 1 מתוך 5')
+  await gallery.getByRole('button', { name: '→ התמונה הקודמת' }).click()
+  await expect(gallery.getByRole('status')).toContainText('תמונה 5 מתוך 5')
+  const image = gallery.locator('img')
+  await image.evaluate((node: HTMLImageElement) => node.decode())
+  expect(await image.evaluate(node => getComputedStyle(node).objectFit)).toBe('contain')
+  for (let count = 0; count < 6; count++) {
+    await page.keyboard.press('Tab')
+    expect(await gallery.evaluate(node => node.contains(document.activeElement))).toBe(true)
+  }
+  const scan = await new AxeBuilder({ page }).withTags(['wcag2a', 'wcag2aa', 'wcag21aa']).analyze()
+  expect(scan.violations).toEqual([])
+  await page.keyboard.press('Escape')
+  await expect(gallery).not.toBeVisible()
+  await expect(trigger).toBeFocused()
+  expect(await page.evaluate(() => document.body.style.overflow)).not.toBe('hidden')
+  await trigger.press('Enter')
+  await expect(gallery).toBeVisible()
+  await close.click()
+  await page.getByRole('link', { name: 'אודות', exact: true }).click()
+  await page.getByRole('button', { name: 'הגדלת תמונה: רבי אליהו מזרחי ז״ל', exact: true }).click()
+  await expect(page.getByRole('dialog').getByRole('status')).toContainText('תמונה 1 מתוך 6')
+  await page.getByRole('dialog').getByRole('button', { name: 'סגירת הגלריה' }).click()
+})
+
+test('song thumbnails load and fall back locally when unavailable', async ({ page }) => {
+  await page.goto('/')
+  for (const image of await page.locator('.song-artwork img').all()) {
+    await image.scrollIntoViewIfNeeded()
+    await expect(image).toHaveAttribute('src', '/images/album-cover.png')
+    await image.evaluate((node: HTMLImageElement) => node.decode())
+  }
+  await page.route('https://i.ytimg.com/**', route => route.fulfill({ path: 'public/images/album-cover.png', contentType: 'image/png' }))
+  await page.reload()
+  const thumbnails = page.locator('.song-artwork img')
+  for (const [index, image] of (await thumbnails.all()).entries()) {
+    await image.scrollIntoViewIfNeeded()
+    await expect(image).toHaveAttribute('src', `https://i.ytimg.com/vi/${videos[index]!.video}/hqdefault.jpg`)
+    await image.evaluate((node: HTMLImageElement) => node.decode())
+    await expect(image).toHaveAttribute('alt', '')
+  }
 })

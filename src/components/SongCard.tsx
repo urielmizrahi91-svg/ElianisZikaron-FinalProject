@@ -1,11 +1,23 @@
+import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import type { Song } from '../data/songs'
 import FavoriteButton from './FavoriteButton'
 
 export default function SongCard({ song }: { song: Song }) {
+  const [thumbnailUnavailable, setThumbnailUnavailable] = useState(false)
   return (
     <article className="song-card">
-      <span className="music-icon" aria-hidden="true">♫</span>
+      <div className="song-artwork">
+        <img
+          src={thumbnailUnavailable ? '/images/album-cover.png' : `https://i.ytimg.com/vi/${song.youtubeId}/hqdefault.jpg`}
+          alt=""
+          width={480}
+          height={360}
+          loading="lazy"
+          onError={() => { if (!thumbnailUnavailable) setThumbnailUnavailable(true) }}
+        />
+        <span className="artwork-play" aria-hidden="true">▶</span>
+      </div>
       <p className="card-eyebrow">מחרוזת יוונית</p>
       <h2>{song.title}</h2>
       <p className="card-description">{song.description}</p>
