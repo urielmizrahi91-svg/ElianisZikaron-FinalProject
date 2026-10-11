@@ -25,16 +25,18 @@ export default function HomePage() {
         <MemorialPhoto photo={photos.bouzouki} priority />
       </section>
 
-      <section className="home-section" data-reveal aria-labelledby="home-songs-title">
-        <div className="section-heading">
-          <div>
-            <p className="eyebrow">01 / המוזיקה</p>
-            <h2 id="home-songs-title">להאזין ולהיזכר</h2>
+      <section className="home-section music-stage" data-reveal aria-labelledby="home-songs-title">
+        <div className="content-container">
+          <div className="section-heading">
+            <div>
+              <p className="eyebrow">01 / המוזיקה</p>
+              <h2 id="home-songs-title">להאזין ולהיזכר</h2>
+            </div>
+            <Link to="/songs">לכל השירים ולחיפוש</Link>
           </div>
-          <Link to="/songs">לכל השירים ולחיפוש</Link>
-        </div>
-        <div className="song-list">
-          {songs.map((song) => <SongCard key={song.id} song={song} />)}
+          <div className="song-list">
+            {songs.map((song) => <SongCard key={song.id} song={song} />)}
+          </div>
         </div>
       </section>
 
@@ -50,25 +52,27 @@ export default function HomePage() {
         </div>
       </section>
 
-      <section className="memory-panel" data-reveal aria-labelledby="memory-title">
-        <div>
-          <p className="eyebrow">03 / הסיפור שממשיך</p>
-          <h2 id="memory-title">מורשת של ניגון ושל נתינה</h2>
-          <p>
-            מן הבמות והבוזוקי אל לימוד התורה והחיים במעלות־תרשיחא,
-            סיפורו של אליאניס מחבר בין אהבת המוזיקה, המשפחה והאדם.
-          </p>
-          <Link to="/about">לקריאת סיפור החיים</Link>
-        </div>
-        <MemorialPhoto photo={photos.torah} />
-      </section>
+      <div className="legacy-section">
+        <section className="memory-panel" data-reveal aria-labelledby="memory-title">
+          <div>
+            <p className="eyebrow">03 / הסיפור שממשיך</p>
+            <h2 id="memory-title">מורשת של ניגון ושל נתינה</h2>
+            <p>
+              מן הבמות והבוזוקי אל לימוד התורה והחיים במעלות־תרשיחא,
+              סיפורו של אליאניס מחבר בין אהבת המוזיקה, המשפחה והאדם.
+            </p>
+            <Link to="/about">לקריאת סיפור החיים</Link>
+          </div>
+          <MemorialPhoto photo={photos.torah} />
+        </section>
 
-      <section className="quiz-invitation home-section" data-reveal aria-labelledby="quiz-invitation-title">
-        <p className="eyebrow">להכיר קצת יותר</p>
-        <h2 id="quiz-invitation-title">מאחורי כל ניגון,<br />יש סיפור.</h2>
-        <p>חמש שאלות על הדרך של אליאניס. רגע קטן של היכרות.</p>
-        <Link className="button" to="/quiz">לחידון המורשת</Link>
-      </section>
+        <section className="quiz-invitation home-section" data-reveal aria-labelledby="quiz-invitation-title">
+          <p className="eyebrow">להכיר קצת יותר</p>
+          <h2 id="quiz-invitation-title">מאחורי כל ניגון,<br />יש סיפור.</h2>
+          <p>חמש שאלות על הדרך של אליאניס. רגע קטן של היכרות.</p>
+          <Link className="button" to="/quiz">לחידון המורשת</Link>
+        </section>
+      </div>
     </PhotoGallery>
   )
 }

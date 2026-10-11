@@ -261,3 +261,59 @@ h1, h2, h3, p, a, button, label { overflow-wrap: anywhere; }
   .lightbox-image { height: 48dvh; }
   .lightbox-navigation button { flex: 1 1 130px; }
 }
+
+/* One visual journey: record sleeve, stage, exhibition and family album. */
+:root { --gold: #bb965c; --ivory: #f7f3ec; }
+.intro { background: radial-gradient(ellipse at 18% 45%, #222018 0, #08090b 52%); border-bottom: 1px solid #383127; }
+.intro .eyebrow::before { content: ''; display: inline-block; width: 36px; height: 1px; margin-inline-end: 12px; vertical-align: middle; background: var(--gold); }
+.intro > .memorial-photo { padding: 12px; border: 1px solid #63513a; border-radius: 20px; background: #111214; box-shadow: 0 24px 60px rgb(0 0 0 / 35%); }
+.intro .memorial-photo img { border-radius: 12px; }
+.intro .memorial-photo figcaption { padding-block: 4px; letter-spacing: 0.04em; }
+.music-stage { width: 100%; padding: 80px 0 96px; background: radial-gradient(ellipse at 50% 0%, #172b44, #101114 65%); color: #f5f5f7; }
+.music-stage .eyebrow { color: #c6b39a; }
+.music-stage .section-heading > a { color: #79baff; }
+.music-stage .song-card { background: #1b1f26; border-color: #39414d; box-shadow: 0 12px 32px rgb(0 0 0 / 18%); }
+.music-stage .card-description, .music-stage .card-eyebrow { color: #b8bec8; }
+.music-stage .favorite-button { color: #b8bec8; }
+.music-stage .favorite-button:hover, .music-stage .favorite-button[aria-pressed='true'] { color: #c8e2ff; background: #243851; }
+.music-stage :is(a, button):focus-visible { outline-color: #79baff; box-shadow: 0 0 0 4px #1b1f26; }
+.music-gallery-section { background: var(--ivory); color: #1d1d1f; padding-block: 96px; border-bottom: 1px solid #d9d0c1; }
+.music-gallery-section .eyebrow, .music-gallery-section .memorial-photo figcaption { color: #60646c; }
+.music-gallery-section h2 { padding-bottom: 24px; border-bottom: 1px solid #cbb896; }
+.music-gallery-section .photo-open { padding: 8px; background: #fffdf9; border: 1px solid #d9d0c1; border-radius: 16px; box-shadow: 0 8px 24px rgb(59 42 19 / 7%); }
+.music-gallery-section .memorial-photo img { border-radius: 10px; }
+.music-gallery-section figcaption { padding-top: 8px; }
+.legacy-section { padding-top: 96px; background: linear-gradient(var(--ivory), #faf9f6 60%, #f5f5f7); }
+.legacy-section .memory-panel { margin-top: 0; border: 1px solid #ded5c7; padding: 48px; background: #fffdf9; }
+.memory-panel .eyebrow { color: #755833; }
+.memory-panel h2 { max-width: 13ch; }
+.memory-panel .memorial-photo { padding: 12px; border: 1px solid #ded5c7; border-radius: 16px; background: white; }
+.biography-magazine { background: #fffdf9; border: 1px solid #e0d8cb; }
+.biography-heading { max-width: 850px; padding-bottom: 24px; border-bottom: 1px solid #cbb896; }
+.biography-magazine .biography-portrait { width: min(100%, 700px); padding: 12px; border: 1px solid #ded5c7; border-radius: 16px; background: white; }
+.life-chapter { display: grid; grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr); align-items: center; gap: 48px; padding: 48px 0; border-top: 1px solid #ded5c7; }
+.chapter-copy { min-width: 0; }
+.chapter-copy > p:not(.eyebrow), .family-chapter > p:not(.eyebrow), .biography-colophon p { max-width: 65ch; font-size: 18px; line-height: 1.7; }
+.life-chapter .biography-home { width: min(100%, 270px); margin: 0 auto; }
+.music-chapter { grid-template-columns: minmax(0, 0.5fr) minmax(0, 1.5fr); padding: 40px; background: #101114; color: #f5f5f7; border-radius: 16px; }
+.music-chapter .eyebrow { color: #c6b39a; }
+.music-chapter .chapter-copy > p:not(.eyebrow) { color: #b8bec8; }
+.chapter-number { color: #bb965c; font-size: clamp(64px, 10vw, 120px); line-height: 1; font-weight: 700; margin: 0; }
+.family-chapter, .archive-chapter, .biography-colophon { padding-top: 64px; }
+.family-chapter .biography-gallery { padding: 20px; background: var(--ivory); border: 1px solid #ded5c7; border-radius: 16px; }
+.biography-gallery > .memorial-photo { padding: 12px; border: 1px solid #ded5c7; border-radius: 16px; background: white; }
+.biography-colophon { border-top: 1px solid #ded5c7; }
+@media (max-width: 900px) {
+  .life-chapter { grid-template-columns: 1fr; gap: 24px; }
+  .music-chapter { padding: 32px; }
+  .chapter-number { font-size: 64px; }
+}
+@media (max-width: 600px) {
+  .music-stage, .music-gallery-section { padding-block: 48px; }
+  .legacy-section { padding-top: 48px; }
+  .legacy-section .memory-panel { padding: 24px; }
+  .life-chapter { padding-block: 32px; }
+  .music-chapter { padding: 24px; }
+  .family-chapter, .archive-chapter, .biography-colophon { padding-top: 40px; }
+  .family-chapter .biography-gallery { padding: 12px; }
+}
