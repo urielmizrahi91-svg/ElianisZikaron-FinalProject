@@ -35,7 +35,7 @@ export default function HomePage() {
             <Link to="/songs">לכל השירים ולחיפוש</Link>
           </div>
           <div className="song-list">
-            {songs.map((song) => <SongCard key={song.id} song={song} />)}
+            {songs.slice(0, 3).map((song) => <SongCard key={song.id} song={song} />)}
           </div>
         </div>
       </section>

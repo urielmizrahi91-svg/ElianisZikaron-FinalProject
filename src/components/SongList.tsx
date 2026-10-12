@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { songs } from '../data/songs'
+import { artistLinks, songs } from '../data/songs'
 import SongCard from './SongCard'
 import { useFavorites } from '../context/FavoritesContext'
 
@@ -16,6 +16,9 @@ export default function SongList() {
   return (
     <section className="songs" id="songs" aria-labelledby="songs-title">
       <h1 id="songs-title">השירים של אליאניס</h1>
+      <nav className="artist-links" aria-label="אליאניס בפלטפורמות ההאזנה">
+        {artistLinks.map((link) => <a key={link.url} href={link.url} target="_blank" rel="noopener noreferrer">{link.label} (נפתח בלשונית חדשה)</a>)}
+      </nav>
       <label className="search-label" htmlFor="song-search">חיפוש בשירים</label>
       <input
         id="song-search"

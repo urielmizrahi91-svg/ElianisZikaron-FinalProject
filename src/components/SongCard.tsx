@@ -9,7 +9,7 @@ export default function SongCard({ song }: { song: Song }) {
     <article className="song-card">
       <div className="song-artwork">
         <img
-          src={thumbnailUnavailable ? '/images/album-cover.png' : `https://i.ytimg.com/vi/${song.youtubeId}/hqdefault.jpg`}
+          src={thumbnailUnavailable || !song.youtubeId ? '/images/album-cover.png' : `https://i.ytimg.com/vi/${song.youtubeId}/hqdefault.jpg`}
           alt=""
           width={480}
           height={360}
@@ -18,12 +18,12 @@ export default function SongCard({ song }: { song: Song }) {
         />
         <span className="artwork-play" aria-hidden="true">▶</span>
       </div>
-      <p className="card-eyebrow">מחרוזת יוונית</p>
+      <p className="card-eyebrow">{song.title.includes('מחרוזת') ? 'מחרוזת יוונית' : 'שיר של אליאניס'}</p>
       <h2>{song.title}</h2>
       <p className="card-description">{song.description}</p>
       <div className="card-actions">
-        <Link className="button" aria-label={`האזנה למחרוזת: ${song.title}`} to={`/songs/${song.id}`}>
-          האזנה למחרוזת
+        <Link className="button" aria-label={`${song.youtubeId ? 'האזנה למחרוזת' : 'האזנה לשיר'}: ${song.title}`} to={`/songs/${song.id}`}>
+          {song.youtubeId ? 'האזנה למחרוזת' : 'האזנה לשיר'}
         </Link>
         <FavoriteButton song={song} />
       </div>

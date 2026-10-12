@@ -1,5 +1,6 @@
 import { expect, test } from '@playwright/test'
 import AxeBuilder from '@axe-core/playwright'
+import { songs } from '../src/data/songs'
 
 const videos = [
   { id: 'figa-medley', title: 'מחרוזת פיגה', video: 'O4NNTlaoBi8' },
@@ -11,6 +12,8 @@ test.beforeEach(async ({ page }) => {
   await page.route('https://i.ytimg.com/**', route => route.abort())
   // These tests cover our interface; video playback is checked separately.
   await page.route('https://www.youtube-nocookie.com/**', (route) => route.abort())
+  await page.route('https://open.spotify.com/embed/**', route => route.abort())
+  await page.route('https://music.amazon.com/embed/**', route => route.abort())
 })
 
 test('home presents the memorial and links to songs and biography', async ({ page }) => {
@@ -43,7 +46,7 @@ test('search handles names, descriptions, whitespace and no results', async ({ p
   await expect(page.locator('.song-card')).toHaveCount(0)
   await expect(page.getByRole('status')).toContainText('לא נמצאו שירים')
   await search.fill('')
-  await expect(page.locator('.song-card')).toHaveCount(3)
+  await expect(page.locator('.song-card')).toHaveCount(songs.length)
 })
 
 test('each song has its own route, player and direct YouTube link', async ({ page }) => {
@@ -60,8 +63,29 @@ test('each song has its own route, player and direct YouTube link', async ({ pag
     await expect(page.getByRole('heading', { level: 1 })).toHaveText(song.title)
     await expect(page).toHaveTitle(`${song.title} | אליאניס — זיכרון במילים`)
     await page.getByRole('link', { name: 'חזרה לכל השירים', exact: true }).click()
-    await expect(page.locator('.song-card')).toHaveCount(3)
+    await expect(page.locator('.song-card')).toHaveCount(songs.length)
   }
+})
+
+test('catalog includes all releases with embedded streaming players and album links', async ({ page }) => {
+  expect(songs).toHaveLength(23)
+  expect(new Set(songs.map(song => song.id)).size).toBe(23)
+  await page.goto('/songs')
+  await expect(page.locator('.song-card')).toHaveCount(23)
+  await expect(page.getByRole('navigation', { name: 'אליאניס בפלטפורמות ההאזנה' }).getByRole('link')).toHaveCount(3)
+  await page.getByLabel('חיפוש בשירים').fill('תחייך')
+  await page.getByRole('link', { name: /האזנה לשיר:/ }).click()
+  await expect(page.locator('iframe')).toHaveAttribute('src', 'https://open.spotify.com/embed/album/1LoFVPZwkoB3qTBV3oD9ri')
+  await expect(page.getByRole('link', { name: 'Spotify (נפתח בלשונית חדשה)', exact: true })).toHaveAttribute('href', 'https://open.spotify.com/album/1LoFVPZwkoB3qTBV3oD9ri')
+  await page.getByRole('button', { name: /שמירה במועדפים/ }).click()
+  await page.reload()
+  await expect(page.getByRole('button', { name: /הסרה מהמועדפים/ })).toHaveAttribute('aria-pressed', 'true')
+  await page.goto('/songs/matia-mou')
+  await expect(page.locator('iframe')).toHaveAttribute('src', 'https://music.amazon.com/embed/B09DZ1S8W5')
+  await expect(page.getByRole('link', { name: /Amazon Music — נוסטלגיה יוונית אוסף 1/ })).toHaveAttribute('href', 'https://music.amazon.in/albums/B09DZ1S8W5')
+  expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true)
+  const result = await new AxeBuilder({ page }).withTags(['wcag2a', 'wcag2aa', 'wcag21aa']).analyze()
+  expect(result.violations).toEqual([])
 })
 
 test('navigation marks the current page and supports browser back', async ({ page }) => {
@@ -82,7 +106,7 @@ test('unknown pages and songs offer a working return link', async ({ page }) => 
   await page.goto('/songs/missing-song')
   await expect(page.getByRole('heading', { level: 1 })).toHaveText('השיר לא נמצא')
   await page.getByRole('link', { name: 'חזרה לשירים', exact: true }).click()
-  await expect(page.locator('.song-card')).toHaveCount(3)
+  await expect(page.locator('.song-card')).toHaveCount(songs.length)
 })
 
 test('favorites share state across pages, persist and can be removed', async ({ page }) => {
@@ -111,7 +135,7 @@ test('corrupt stored favorites do not break the application', async ({ page }) =
   await page.goto('/songs')
   await page.evaluate(() => localStorage.setItem('elianis-favorites', 'invalid-json'))
   await page.reload()
-  await expect(page.getByRole('button', { name: /שמירה במועדפים/ })).toHaveCount(3)
+  await expect(page.getByRole('button', { name: /שמירה במועדפים/ })).toHaveCount(songs.length)
   await page.evaluate(() => localStorage.setItem('elianis-favorites', JSON.stringify(['unknown', null, 'figa-medley', 'figa-medley'])))
   await page.reload()
   await expect(page.getByRole('checkbox', { name: /רק המועדפים/ })).toHaveAccessibleName('רק המועדפים שלי (1)')
