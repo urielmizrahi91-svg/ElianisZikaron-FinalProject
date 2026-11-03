@@ -14,7 +14,7 @@ export default function RouteFocus() {
       ? 'תאריכים לזיכרון'
       : memorialYear ? `ל׳ בתשרי ${memorialYear.label}` : pathname === '/'
       ? 'בית'
-      : pathname === '/songs'
+      : pathname === '/songs' || pathname === '/songs/'
         ? 'השירים'
         : pathname === '/about'
           ? 'סיפור החיים'

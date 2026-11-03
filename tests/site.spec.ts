@@ -33,6 +33,22 @@ test('home presents the memorial and links to songs and biography', async ({ pag
   expect(errors).toEqual([])
 })
 
+test('song list title supports both URLs with and without a trailing slash', async ({ page }) => {
+  for (const path of ['/songs', '/songs/']) {
+    await page.goto(path)
+    await expect(page).toHaveTitle('השירים | אליאניס — זיכרון במילים')
+    await expect(page.getByRole('heading', { level: 1 })).toHaveText('השירים של אליאניס')
+    await expect(page.locator('.song-card')).toHaveCount(songs.length)
+    await page.reload()
+    await expect(page).toHaveTitle('השירים | אליאניס — זיכרון במילים')
+    await page.getByRole('link', { name: 'האזנה למחרוזת: מחרוזת פיגה', exact: true }).click()
+    await expect(page).toHaveTitle('מחרוזת פיגה | אליאניס — זיכרון במילים')
+    await page.goBack()
+    await expect(page).toHaveURL(path)
+    await expect(page).toHaveTitle('השירים | אליאניס — זיכרון במילים')
+  }
+})
+
 test('search handles names, descriptions, whitespace and no results', async ({ page }) => {
   await page.goto('/songs')
   const search = page.getByLabel('חיפוש בשירים')
