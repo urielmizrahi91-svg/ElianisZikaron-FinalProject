@@ -55,15 +55,19 @@ npm run dev -- --host 0.0.0.0 --port 5173 --strictPort
 npm run lint
 npm run build
 npm test
+npm run test:ui
+npm run test:e2e
 ```
 
-ב־Windows אפשר להשתמש ב־npm.cmd במקום npm. npm test בונה את האתר, מפעיל שרת preview זמני ומריץ 20 תרחישים בכל אחד משני הרוחבים: 1280 ו־390 פיקסלים, סך הכול 40 בדיקות. אין ניסיונות חוזרים אוטומטיים שמסתירים כשל.
+ב־Windows אפשר להשתמש ב־npm.cmd במקום npm. הפקודות npm test ו־npm run test זהות: הן בודקות טיפוסי TypeScript ומריצות פעם אחת 14 בדיקות יחידה ב־Vitest. הבדיקות ב־tests/unit מכסות חיפוש וסינון שירים, שילוב מועדפים, תקינות מזהי הקטלוג ואימות נתוני תאריכים מ־Hebcal, ללא גישה לרשת.
+
+הפקודה npm run test:ui פותחת את ממשק Vitest UI במצב מעקב; לסיום Ctrl+C. הפקודה npm run test:e2e בונה את האתר ומריצה בנפרד את בדיקות Playwright: 24 תרחישים בכל אחד משני הרוחבים, 1280 ו־390 פיקסלים, סך הכול 48 בדיקות. Vitest אוסף רק tests/unit/**/*.test.ts ו־Playwright רק קובצי ‎*.spec.ts. אין ניסיונות חוזרים אוטומטיים שמסתירים כשל.
 
 דרוש Chromium. בענן מזוהה הדפדפן ב־/usr/bin/chromium. במחשב שאין בו דפדפן Playwright מותקן, התקינו פעם אחת:
 
 ```powershell
 npx.cmd playwright install chromium
-npm.cmd test
+npm.cmd run test:e2e
 ```
 
 אפשר לבחור דפדפן מותקן באמצעות PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH. דוח נוצר בתיקיית playwright-report; לפתיחה: npm run test:report. תוצאות ודוחות אינם נשמרים ב־Git.

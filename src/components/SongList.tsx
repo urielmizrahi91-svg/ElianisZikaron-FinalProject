@@ -2,16 +2,13 @@ import { useState } from 'react'
 import { artistLinks, songs } from '../data/songs'
 import SongCard from './SongCard'
 import { useFavorites } from '../context/FavoritesContext'
+import { filterSongs } from '../lib/filterSongs'
 
 export default function SongList() {
   const [query, setQuery] = useState('')
   const [favoritesOnly, setFavoritesOnly] = useState(false)
   const { favoriteIds, storageAvailable } = useFavorites()
-  const searchText = query.trim().toLocaleLowerCase('he')
-  const matchingSongs = songs.filter((song) =>
-    `${song.title} ${song.description}`.toLocaleLowerCase('he').includes(searchText)
-      && (!favoritesOnly || favoriteIds.includes(song.id)),
-  )
+  const matchingSongs = filterSongs(songs, query, favoritesOnly, favoriteIds)
 
   return (
     <section className="songs" id="songs" aria-labelledby="songs-title">
