@@ -8,13 +8,13 @@ React Router בוחר עמוד לפי הכתובת. לחיצה על Link משנ�
 
 ## תוכן ו־TypeScript
 
-src/data/songs.ts מכיל interface בשם Song ורשימה מטיפוס Song[]. כל פריט דורש id, title, description ו־youtubeId. בדיקת TypeScript מזהה שדות חסרים וטיפוסים לא מתאימים, אך לא מאמתת שסרטון באמת זמין ב־YouTube.
+src/data/songs.ts מכיל interface בשם Song ורשימה מטיפוס Song[]. כל פריט דורש id, title ו־description; youtubeId ורשימת links הם אופציונליים בטיפוס. בדיקת TypeScript מזהה שדות חסרים וטיפוסים לא מתאימים, אך לא מאמתת שתוכן חיצוני זמין.
 
 SongCard, SongPlayer ו־FavoriteButton מקבלים שיר באמצעות props מטופסים. כך משתמשים באותו כרטיס בבית וברשימה בלי לשכפל את תוכנו.
 
 ## חיפוש ורשימות
 
-SongList מחזיק query באמצעות useState. האירוע onChange מעדכן את המצב לפי מה שמקלידים. אחרי ניקוי רווחים בקצוות, filter בוחר שירים ששמם או תיאורם מכילים את הטקסט. סינון המועדפים הוא תנאי נוסף באותה פעולה.
+SongList מחזיק query ו־favoritesOnly באמצעות useState. האירוע onChange מעדכן את המצב לפי מה שמקלידים. הפונקציה filterSongs ב־src/lib/filterSongs.ts מנקה רווחים בקצוות ובוחרת באמצעות filter שירים ששמם או תיאורם מכילים את הטקסט. סינון המועדפים הוא תנאי נוסף באותה פעולה. הלוגיקה חולצה לצורך בדיקות יחידה ללא שינוי התנהגות.
 
 התוצאות מחושבות מחדש מהנתונים ומהמצב בכל רינדור, ולא נשמרות כעותק נוסף ב־state. map הופך כל תוצאה לכרטיס. המזהה הקבוע משמש key כדי ש־React יזהה פריטים גם כשהרשימה משתנה.
 
@@ -30,7 +30,15 @@ localStorage שייך לדפדפן ולכתובת האתר, כולל הפורט.
 
 ## עמוד השיר
 
-SongPage קורא songId מהכתובת באמצעות useParams ומוצא את השיר באמצעות find. מזהה לא מוכר מציג הודעה וקישור לרשימה. SongPlayer יוצר iframe לפי מזהה הסרטון וכולל קישור ישיר חלופי. האתר אינו מוריד את הסרטון ואינו מפעיל אותו אוטומטית.
+SongPage קורא songId מהכתובת באמצעות useParams ומוצא את השיר באמצעות find. מזהה לא מוכר מציג הודעה וקישור לרשימה. זהו מבנה Master–Detail עם נתוני שירים מקומיים. אם יש youtubeId, SongPlayer יוצר iframe של YouTube וקישור ישיר חלופי. אחרת הוא מעדיף Spotify ואם אין קישור כזה בוחר קישור אלבום לפי נתיב /albums/ עבור נגן Amazon. מוצגים גם קישורי האזנה. חלק מהקישורים מובילים לאלבום ומסומנים כך; אין הבטחה לניגון השיר הנבחר. האתר אינו מוריד את המדיה ואינו מפעיל אותה אוטומטית ביוזמתו.
+
+## תאריכים לזיכרון
+
+MemorialDatesPage מציג שש שנים מתוך src/data/memorialYears.ts. Link מוביל ל־/memorial-dates/:year; MemorialDatePage קורא את השנה באמצעות useParams ומוודא שהיא נתמכת. הרשימה מקומית; פרטי ההמרה נשלפים מ־https://www.hebcal.com/converter באמצעות fetch בתוך useEffect עבור hy, hm=Tishrei, hd=30, h2g=1, cfg=json ו־strict=1.
+
+מצב מאוחד מטופס מבחין בין loading, error ו־success. התגובה נקראת כ־unknown ומאומתת ב־isConvertedDate שב־src/lib/convertedDate.ts: שנה ויום עברי מבוקשים, שדות מספריים ותאריך לועזי שאינו גולש לחודש אחר. זו בדיקת מבנה ותקינות לוח לועזי, לא אימות עצמאי של אלגוריתם ההמרה. יש כפתור ניסיון נוסף, timeout של 15 שניות, AbortController וניקוי בעת מעבר עמוד כדי למנוע עדכון מבקשה ישנה.
+
+אין שימוש ב־Yahrzeit API. מוצגת המרה בלבד של ל׳ בתשרי, עם קרדיט ל־Hebcal והבהרה שאין זו קביעת מועדי אזכרה לפי מנהג המשפחה.
 
 ## עיצוב ונגישות
 
@@ -40,4 +48,4 @@ Flexbox משמש לניווט ולכרטיסים, ו־media query מתאים ר�
 
 ## בדיקת שינוי
 
-הריצו npm run lint ו־npm test. הבדיקות כוללות TypeScript, בניית production ובדיקת התוצר בדפדפן. שינוי נתוני שירים עשוי לדרוש עדכון בדיקות התוכן. ניגון YouTube נבדק בנפרד ידנית.
+הריצו npm run lint, npm test ו־npm run build. npm test ו־npm run test בודקים טיפוסי בדיקות ומריצים 14 בדיקות יחידה ב־Vitest; npm run test:ui פותח UI במצב מעקב. vitest.config.ts משלב את תצורת Vite ואוסף tests/unit/**/*.test.ts בלבד. npm run test:e2e בונה production ומריץ 48 בדיקות Playwright; playwright.config.ts אוסף קובצי ‎*.spec.ts בלבד. שינוי נתוני שירים עשוי לדרוש עדכון בדיקות התוכן. זמינות נגנים ו־fetch אמיתי נבדקים בנפרד מתשובות הרשת המדומות. ראו [תוצאות ומגבלות](VALIDATION.md).
