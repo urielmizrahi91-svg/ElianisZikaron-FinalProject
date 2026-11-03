@@ -8,6 +8,8 @@ import RouteFocus from './components/RouteFocus'
 import { FavoritesProvider } from './context/FavoritesContext'
 import QuizPage from './pages/QuizPage'
 import ScrollReveal from './components/ScrollReveal'
+import MemorialDatesPage from './pages/MemorialDatesPage'
+import MemorialDatePage from './pages/MemorialDatePage'
 
 export default function App() {
   return (
@@ -27,6 +29,7 @@ export default function App() {
               <NavLink to="/songs">השירים</NavLink>
               <NavLink to="/about">אודות</NavLink>
               <NavLink to="/quiz">חידון</NavLink>
+              <NavLink to="/memorial-dates">תאריכים לזיכרון</NavLink>
             </nav>
             </div>
           </header>
@@ -38,6 +41,8 @@ export default function App() {
               <Route path="/songs/:songId" element={<SongPage />} />
               <Route path="/about" element={<AboutPage />} />
               <Route path="/quiz" element={<QuizPage />} />
+              <Route path="/memorial-dates" element={<MemorialDatesPage />} />
+              <Route path="/memorial-dates/:year" element={<MemorialDatePage />} />
               <Route path="*" element={<NotFoundPage />} />
             </Routes>
           </main>

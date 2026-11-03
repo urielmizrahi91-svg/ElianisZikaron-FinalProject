@@ -165,6 +165,9 @@ button:disabled { cursor: default; }
 .content-container, .home-section { width: min(100%, var(--content-width)); padding-inline: var(--side-padding); margin-inline: auto; }
 .site-header { display: block; padding: 14px 0; }
 .header-content { display: flex; align-items: center; justify-content: space-between; gap: 24px; }
+.site-nav { flex-wrap: wrap; }
+.memorial-years { display: flex; flex-wrap: wrap; gap: 12px 24px; padding-inline-start: 24px; margin-block: 24px; }
+.memorial-years a { display: inline-flex; align-items: center; min-height: 44px; }
 .site-nav { gap: 28px; }
 .site-nav a { font-size: 16px; border-bottom: 2px solid transparent; }
 .site-nav a.active { border-bottom-color: var(--blue); }

@@ -1,6 +1,7 @@
 import { useEffect, useRef } from 'react'
 import { useLocation } from 'react-router-dom'
 import { songs } from '../data/songs'
+import { memorialYears } from '../data/memorialYears'
 
 export default function RouteFocus() {
   const { pathname } = useLocation()
@@ -8,7 +9,10 @@ export default function RouteFocus() {
 
   useEffect(() => {
     const song = songs.find((item) => pathname === `/songs/${item.id}`)
-    const pageTitle = pathname === '/'
+    const memorialYear = memorialYears.find(item => pathname === `/memorial-dates/${item.year}`)
+    const pageTitle = pathname === '/memorial-dates'
+      ? 'תאריכים לזיכרון'
+      : memorialYear ? `ל׳ בתשרי ${memorialYear.label}` : pathname === '/'
       ? 'בית'
       : pathname === '/songs'
         ? 'השירים'
