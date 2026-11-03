@@ -48,4 +48,6 @@ Flexbox משמש לניווט ולכרטיסים, ו־media query מתאים ר�
 
 ## בדיקת שינוי
 
-הריצו npm run lint, npm test ו־npm run build. npm test ו־npm run test בודקים טיפוסי בדיקות ומריצים 14 בדיקות יחידה ב־Vitest; npm run test:ui פותח UI במצב מעקב. vitest.config.ts משלב את תצורת Vite ואוסף tests/unit/**/*.test.ts בלבד. npm run test:e2e בונה production ומריץ 48 בדיקות Playwright; playwright.config.ts אוסף קובצי ‎*.spec.ts בלבד. שינוי נתוני שירים עשוי לדרוש עדכון בדיקות התוכן. זמינות נגנים ו־fetch אמיתי נבדקים בנפרד מתשובות הרשת המדומות. ראו [תוצאות ומגבלות](VALIDATION.md).
+הריצו npm run lint, npm test ו־npm run build. npm test ו־npm run test בודקים טיפוסי בדיקות ומריצים 14 בדיקות יחידה ב־Vitest; npm run test:ui פותח UI במצב מעקב. vitest.config.ts משלב את תצורת Vite ואוסף tests/unit/**/*.test.ts בלבד. npm run test:e2e בונה production ומריץ 50 בדיקות Playwright — 25 לכל רוחב מסך (1280 ו־390); playwright.config.ts אוסף קובצי ‎*.spec.ts בלבד. שינוי נתוני שירים עשוי לדרוש עדכון בדיקות התוכן. זמינות נגנים ו־fetch אמיתי נבדקים בנפרד מתשובות הרשת המדומות. ראו [תוצאות ומגבלות](VALIDATION.md).
+
+היקף הבדיקות מאומת גם בקבצים: 21 תרחישים ב־tests/site.spec.ts ועוד 4 ב־tests/memorial-dates.spec.ts, בשני פרויקטי חלון. בתוצאות האחרונות כל 50 הבדיקות עברו, אך סיום התהליך דרש עצירת שרת preview ידנית; אין בכך אישור לסיום אוטומטי תקין בכל סביבה. 14 בדיקות Vitest עברו בהרצה המתועדת האחרונה. לא הורצו בדיקות תוכנה מחדש במסגרת עדכון תיעוד זה.
